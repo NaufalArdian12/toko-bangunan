@@ -20,7 +20,11 @@ class TransaksiController extends Controller
 
     public function create()
     {
-        $products = Product::all();
+        $products = Product::whereIn('id', function ($query) {
+            $query->select('product_id')
+                ->from('stock_items')
+                ->where('jumlah', '>', 0);
+        })->get();
         $warehouses = Warehouse::all();
         return view('transaksi.create', compact('products', 'warehouses'));
     }
