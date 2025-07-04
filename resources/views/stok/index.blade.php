@@ -42,12 +42,9 @@
                                     class="text-blue-600 hover:underline">
                                     Edit
                                 </a>
-                                <form action="{{ route('stok.destroy', $stok->id) }}" method="POST" class="inline"
-                                    onsubmit="return confirm('Yakin ingin menghapus stok ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:underline">Hapus</button>
-                                </form>
+                                <button onclick="openDeleteModal({{ $stok->id }})" class="text-red-600 hover:underline">
+                                    Hapus
+                                </button>
                             </td>
                         </tr>
                     @empty
@@ -149,6 +146,23 @@
         </div>
     </div>
 
+    <!-- Modal Delete -->
+    <div id="deleteModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+        <div class="bg-white p-6 rounded shadow-md max-w-sm w-full">
+            <h2 class="text-lg font-bold mb-4">Konfirmasi Hapus</h2>
+            <p class="mb-6 text-sm text-gray-600">Yakin ingin menghapus Stok ini? Stok akan dikembalikan.</p>
+
+            <form id="deleteForm" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 bg-gray-300 rounded">Batal</button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Hapus</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         function openEditModal(id, namaProduk, namaGudang, jumlah, warehouseId) {
             const modal = document.getElementById('modal-edit-stok');
@@ -170,5 +184,17 @@
                 modal.classList.add('hidden');
             }
         });
+
+        function openDeleteModal(id) {
+            const form = document.getElementById('deleteForm');
+            form.action = `/stok/${id}`;
+            document.getElementById('deleteModal').classList.remove('hidden');
+            document.getElementById('deleteModal').classList.add('flex');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('flex');
+            document.getElementById('deleteModal').classList.add('hidden');
+        }
     </script>
 @endsection
