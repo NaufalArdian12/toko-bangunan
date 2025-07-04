@@ -18,7 +18,7 @@
 
 
         <!-- TABEL STOK -->
-        <div class="bg-white mt-10 p-4 rounded shadow">
+        <div class="bg-white p-4 rounded shadow">
             <h3 class="text-lg font-semibold mb-4">Daftar Stok Gudang</h3>
 
             <table class="min-w-full table-auto text-sm border border-gray-200">
